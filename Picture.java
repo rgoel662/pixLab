@@ -249,9 +249,9 @@ public class Picture extends SimplePicture {
 						bSum += pixels[k][l].getBlue();
 					}
 				}
-				resultPixels[i][j].setRed(2 * pixels.getRed() - (rSum / ((size - xExclude) * (size - yExclude))));
-				resultPixels[i][j].setGreen(2 * pixels.getGreen() - (gSum / ((size - xExclude) * (size - yExclude))));
-				resultPixels[i][j].setBlue(2 * pixels.getBlue() - (bSum / ((size - xExclude) * (size - yExclude))));
+				resultPixels[i][j].setRed(2 * pixels[i][j].getRed() - (rSum / ((size - xExclude) * (size - yExclude))));
+				resultPixels[i][j].setGreen(2 * pixels[i][j].getGreen() - (gSum / ((size - xExclude) * (size - yExclude))));
+				resultPixels[i][j].setBlue(2 * pixels[i][j].getBlue() - (bSum / ((size - xExclude) * (size - yExclude))));
 			}
 		}
 		return result;
