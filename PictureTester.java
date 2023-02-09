@@ -80,6 +80,41 @@ public class PictureTester
     newBeach.explore();
   }
   
+  /** Method to test swapLeftRight */
+  public static void testSwap()
+  {
+    Picture beach = new Picture("images/redMotorcycle.jpg");
+    beach.explore();
+    Picture newBeach = beach.swapLeftRight();
+    newBeach.explore();
+  }
+  
+  /** Method to test stair */
+  public static void testStair()
+  {
+    Picture beach = new Picture("images/redMotorcycle.jpg");
+    beach.explore();
+    Picture newBeach = beach.stairStep(1, 300);
+    newBeach.explore();
+  }
+  /** Method to test liquify */
+  public static void testLiquify()
+  {
+    Picture beach = new Picture("images/butterfly1.jpg");
+    beach.explore();
+    Picture newBeach = beach.liquify(100);
+    newBeach.explore();
+  }
+  
+  /** Method to test wavy */
+  public static void testWavy()
+  {
+    Picture beach = new Picture("images/temple.jpg");
+    beach.explore();
+    Picture newBeach = beach.wavy(30);
+    newBeach.explore();
+  }
+  
   /** Method to test mirrorVertical */
   public static void testMirrorVertical()
   {
@@ -122,7 +157,7 @@ public class PictureTester
     // and comment out the ones you don't want
     // to run
     //testFixUnderwater();
-    testEnhance();
+    testWavy();
     //testZeroBlue();
     //testKeepOnlyBlue();
     //testKeepOnlyRed();

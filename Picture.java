@@ -249,9 +249,103 @@ public class Picture extends SimplePicture {
 						bSum += pixels[k][l].getBlue();
 					}
 				}
+
 				resultPixels[i][j].setRed(2 * pixels[i][j].getRed() - (rSum / ((size - xExclude) * (size - yExclude))));
 				resultPixels[i][j].setGreen(2 * pixels[i][j].getGreen() - (gSum / ((size - xExclude) * (size - yExclude))));
 				resultPixels[i][j].setBlue(2 * pixels[i][j].getBlue() - (bSum / ((size - xExclude) * (size - yExclude))));
+			}
+		}
+		return result;
+	}
+	
+	/** A method that swaps the left and right component of a picture */
+	public Picture swapLeftRight(){
+		Pixel[][] pixels = this.getPixels2D();
+		Picture result = new Picture(pixels.length, pixels[0].length);
+		Pixel[][] resultPixels = result.getPixels2D();
+		int mid = pixels[0].length / 2;
+		int addOne = 0;
+		if (pixels[0].length % 2 == 1){
+			addOne = 1;
+		}
+		for (int i = 0; i < pixels.length; i++){
+			for (int j = mid; j < pixels[0].length; j++){
+				resultPixels[i][j-mid].setRed(pixels[i][j].getRed());
+				resultPixels[i][j-mid].setGreen(pixels[i][j].getGreen());
+				resultPixels[i][j-mid].setBlue(pixels[i][j].getBlue());
+			}
+		}
+		for (int i = 0; i < pixels.length; i++){
+			for (int j = 0; j < mid; j++){
+				resultPixels[i][j+mid+addOne].setRed(pixels[i][j].getRed());
+				resultPixels[i][j+mid+addOne].setGreen(pixels[i][j].getGreen());
+				resultPixels[i][j+mid+addOne].setBlue(pixels[i][j].getBlue());
+			}
+		}
+		return result;
+	}
+	
+	/** A method to create a step like effect on the pixels
+	 * @param shiftCount The number of pixels to shift to the right
+	 * @param steps The number of steps
+	 * @return The picture with pixels shifted in stair steps
+	 */
+	public Picture stairStep(int shiftCount, int steps){
+		Pixel[][] pixels = this.getPixels2D();
+		Picture result = new Picture(pixels.length, pixels[0].length);
+		Pixel[][] resultPixels = result.getPixels2D();
+		int numSteps = (int) Math.floor(pixels.length / (double)steps);
+		int width = pixels[0].length;
+		for (int i = 0; i < pixels.length; i ++){
+			for (int j = 0; j < pixels[0].length; j++){
+				resultPixels[i][(j + (shiftCount * (i / numSteps))) % width].setRed(pixels[i][j].getRed());
+				resultPixels[i][(j + (shiftCount * (i / numSteps))) % width].setGreen(pixels[i][j].getGreen());
+				resultPixels[i][(j + (shiftCount * (i / numSteps))) % width].setBlue(pixels[i][j].getBlue());
+			}
+		}
+		return result;
+	}
+	
+	/** A method that distorts the image to fit a Gaussian curve
+	 * @param maxFactor Max height (shift) of curve in pixels
+	 * @return Liquified picture
+	 */
+	public Picture liquify(int maxHeight){
+		Pixel[][] pixels = this.getPixels2D();
+		Picture result = new Picture(pixels.length, pixels[0].length);
+		Pixel[][] resultPixels = result.getPixels2D();
+		int bellWidth = 50;
+		for (int i = 0; i < pixels.length; i++){
+			double exponent = Math.pow(i - pixels.length / 2.0, 2) / (2.0 * Math.pow(bellWidth, 2));
+			int rightShift = (int)(maxHeight * Math.exp(- exponent));
+			for (int j = 0 ; j < pixels[0].length; j++){
+				resultPixels[i][(j + rightShift) % pixels[0].length].setRed(pixels[i][j].getRed());
+				resultPixels[i][(j + rightShift) % pixels[0].length].setGreen(pixels[i][j].getGreen());
+				resultPixels[i][(j + rightShift) % pixels[0].length].setBlue(pixels[i][j].getBlue());
+			}
+		}
+		return result;
+	}
+	
+	/** A method that distorts an image to fit a sinusoidal curve
+	* @param amplitude The maximum shift of pixels
+	* @return Wavy picture
+	*/
+	public Picture wavy(int amplitude){
+		Pixel[][] pixels = this.getPixels2D();
+		Picture result = new Picture(pixels.length, pixels[0].length);
+		Pixel[][] resultPixels = result.getPixels2D();
+		int phaseShift = 0;
+		double frequency = 0.4;
+		for (int i = 0; i < pixels.length; i++){
+			int rightShift = (int)(amplitude * Math.sin(2 * Math.PI * frequency * Math.toRadians(i) + phaseShift));
+			if (rightShift < 0){
+				rightShift = pixels[0].length + rightShift;
+			}
+			for (int j = 0; j < pixels[0].length; j++){
+				resultPixels[i][(j + rightShift) % pixels[0].length].setRed(pixels[i][j].getRed());
+				resultPixels[i][(j + rightShift) % pixels[0].length].setGreen(pixels[i][j].getGreen());
+				resultPixels[i][(j + rightShift) % pixels[0].length].setBlue(pixels[i][j].getBlue());
 			}
 		}
 		return result;
