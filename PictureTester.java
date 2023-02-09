@@ -70,6 +70,15 @@ public class PictureTester
     Picture newBeach = beach.blur(21);
     newBeach.explore();
   }
+
+  /** Method to test enhance */
+  public static void testEnhance()
+  {
+    Picture beach = new Picture("images/water.jpg");
+    beach.explore();
+    Picture newBeach = beach.enhance(21);
+    newBeach.explore();
+  }
   
   /** Method to test mirrorVertical */
   public static void testMirrorVertical()
@@ -113,7 +122,7 @@ public class PictureTester
     // and comment out the ones you don't want
     // to run
     //testFixUnderwater();
-    testBlur();
+    testEnhance();
     //testZeroBlue();
     //testKeepOnlyBlue();
     //testKeepOnlyRed();
