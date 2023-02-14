@@ -466,7 +466,50 @@ public class Picture extends SimplePicture {
 			}
 		}
 	}
-
+	
+	/**
+	 * Method to show large changes in color
+	 * 
+	 * @param threshold the distance for finding edges
+	 */
+	public Picture edgeDetectionBelow(int threshold){
+		Pixel[][] pixels = this.getPixels2D();
+		Picture result = new Picture(pixels.length, pixels[0].length);
+		Pixel[][] resultPixels = result.getPixels2D();
+		for (int i =0 ; i < pixels.length -1;i++){
+			for (int j = 0; j < pixels[0].length; j++){
+				if (pixels[i][j].colorDistance(pixels[i+1][j].getColor()) > threshold)
+					resultPixels[i][j].setColor(Color.BLACK);
+				else
+					resultPixels[i][j].setColor(Color.WHITE);
+			}
+		}
+		return result;
+	}
+	
+	public Picture greenScreen(){
+		Picture green1 = new Picture("GreenScreenCatMouse/kitten1GreenScreen.jpg");
+		Pixel[][] green1Pix = green1.getPixels2D();
+		Picture green2 = new Picture("GreenScreenCatMouse/mouse1GreenScreen.jpg");
+		Pixel[][] green2Pix = green2.getPixels2D();
+		Picture back = new Picture("GreenScreenCatMouse/IndoorHouseLibraryBackground.jpg");
+		Pixel[][] bacPix = back.getPixels2D();
+		Picture result = new Picture(bacPix.length, bacPix[0].length);
+		Pixel[][] resultPix = result.getPixels2D();
+		Color greenColor = green1Pix[0][0].getColor();
+		System.out.println(green1Pix[0][1].getColor().equals(greenColor));
+		for (int i = 0; i < green1Pix.length; i++){
+			for (int j = 0; j < green2Pix[0].length; j++){
+				if(green1Pix[i][j].getColor().equals(greenColor)){
+					resultPix[i][j] = bacPix[i][j];
+				} else {
+					resultPix[i][j] = green1Pix[i][j];
+				}
+			}
+		}
+		return result;
+	}
+	
 	/*
 	 * Main method for testing - each class in Java can have a main
 	 * method
